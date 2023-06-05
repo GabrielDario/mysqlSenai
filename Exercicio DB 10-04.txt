@@ -1,0 +1,198 @@
+1 - A cláusula INNER JOIN compara linha por linha duas tabelas e faz uma junção.Se for true a condição,uma nova linha será criada sendo a combinação entre as duas.
+Mesma função do INNER JOIN, porém se a tabela esquerda A não satisfaça a condição da Direita B, ela é null, já se for ao contrário(B não condiz),retorna falso.
+
+Referêcia : 
+https://www.alura.com.br/artigos/join-em-sql?gclid=CjwKCAjw586hBhBrEiwAQYEnHZ-TpPyagYF8DaHsXLluUSW2J_EZPt6R3l14vUY1EE0lrOwkUgD1VBoCCWgQAvD_BwE
+---------------------------------------------
+2 - Subconsulta é uma consulta dentro de uma consulta,assim podendo fazer uma consulta mais específicas ,por exemplo consultar entidade-fraca que está dentro de uma entidade-forte vinculando uma a outra.
+Exemplo: Tabela Livro e tabela Editora, aonde editora depende de livro, fazer uma query aonde quero nome do livro e o preço e a idEditora: 
+
+SELECT NomeLivro, PrecoLivro, IdEditora
+FROM tbl_livro
+WHERE IdEditora = 
+    (SELECT IdEditora
+     FROM tbl_editora
+     WHERE NomeEditora = 'Wiley');
+Referêcia : 
+http://www.bosontreinamentos.com.br/bancos-de-dados/o-que-e-uma-subconsulta-sql-subquery/
+---------------------------------------------
+3 - Count faz uma soma do valor de todas as colunas especificas e retorna o valor total.
+select count(quantidade) from Produtos; 
+
+Referêcia : 
+https://www.alura.com.br/artigos/select-count-count1-e-countnome-a-batalha-dos-counts-de-sql
+---------------------------------------------
+4 - 
+Índices são identificações que ajudam a tornar a consulta a um dado do banco muito mais rápida. Funciona semelhante ao sumário de um livro, onde você encontra a página correta de acordo com o assunto e não precisa ficar passando folha por folha até encontrar a desejada. Com o uso dos índices, se faz que a cada operação de atualização de dados seja também feita uma atualização dos índices.
+EX: Cliente c
+
+Referêcia :https://king.host/wiki/artigo/otimizar-banco-de-dados/
+---------------------------------------------
+5 - 
+SELECT nome_coluna(s)
+ FROM nome_tabela
+WHERE condição
+GROUP BY nome_coluna (s)
+ORDER BY nome_coluna (s);
+Em que:
+
+nome_coluna(s): indica os nomes das colunas  SQL. Vale ressaltar que podemos utilizar funções em conjunto com as colunas. Veremos mais sobre isso no próximo tópico;
+nome_tabela: indica o nome da tabela;
+condição: condição para retornar registros
+nome_coluna(s): indica o campo que será agrupado.
+
+É importante dizer que a cláusula ORDER BY é opcional e é utilizada para classificar o resultado da busca em ordem crescente ou decrescente de acordo com os campos indicados.
+Referêcia : 
+https://blog.betrybe.com/sql-group-by/#1
+---------------------------------------------
+6 - 
+Uma transação de banco de dados configura um conjunto de instruções SQL que são combinadas em uma única unidade de trabalho e executadas como se fossem uma única operação. Essa abordagem é usada para evitar muitos problemas que podem ocorrer em um banco de dados, além de impor propriedades ACID.
+Motivo das trasações: 
+Forneça unidades de trabalho que sejam confiáveis ​​e permitam a recuperação adequada de falhas.
+Mantenha o banco de dados consistente em caso de falha do sistema ou das operações.
+Forneça isolamento entre programas que acessam o banco de dados simultaneamente.
+Referêcia : 
+http://www.bosontreinamentos.com.br/mysql/como-trabalhar-com-transacoes-em-mysql/
+---------------------------------------------
+7 - 
+O VARCHAR significa que você pode definir o tamanho máximo entre 1 e 65.535. Os campos TEXT têm um tamanho máximo fixo de 65.535 caracteres.
+Um VARCHAR pode fazer parte de um índice, enquanto um campo TEXT exige que você especifique um tamanho de prefixo, que pode fazer parte de um índice.
+VARCHAR é armazenado em linha com a tabela (pelo menos para o mecanismo de armazenamento MyISAM), tornando-o potencialmente mais rápido quando o tamanho é razoável. Obviamente, quanto mais rápido depende dos seus dados e do seu hardware. Enquanto isso, TEXT é armazenado fora da tabela com a tabela tendo um ponteiro para o local do armazenamento real.
+O uso de uma coluna TEXT em uma classificação exigirá o uso de uma tabela temporária baseada em disco, como o mecanismo de armazenamento MEMORY (HEAP).
+Referêcia : 
+https://www.navicat.com/en/company/aboutus/blog/1308-choosing-between-varchar-and-text-in-mysql
+---------------------------------------------
+8 - ORDER BY é usada para ordenar o conjunto-resultado de registros em uma consulta,tanto de forma ascendente quanto descendente.
+Podemos configurar a ordenação como ascendente (crescente) ou descendente (decrescente) com o uso das palavras ASC(ascendente) ou DESC(descendente).
+
+ GROUP BY para agrupar registros em subgrupos baseados em colunas ou valores retornados por uma expressão.
+Com o GROUP BY podemos agrupar os valores de uma coluna e também realizar cálculos sobre esses valores. Desta forma, ao realizarmos ma consulta, os valores encontrados nas linhas são agrupados e então uma função de agregação pode ser aplicada sobre esses grupos.
+
+SELECT colunas FROM tabela
+ORDER BY coluna_a_ordenar;
+
+SELECT colunas, função_agregação()
+FROM tabela
+WHERE filtro
+GROUP BY coluna
+
+Referêcia : 
+http://www.bosontreinamentos.com.br/mysql/mysql-order-by-consultas-com-ordenacao-13/
+http://www.bosontreinamentos.com.br/mysql/mysql-group-by-agrupamento-de-registros-26/
+---------------------------------------------
+9 - As chaves estrangeiras permite que uma tabela se relacione com outra, por exemplo, em uma loja existe um controle de vendas, aonde é registrada todas as vendas feita pela loja durante o dia, a loja também tem um controle de cliente contendo todos os dados pessoais de cada um deles. Note que temos duas informações totalmente diferentes, mas podemos relacionar as compras com o cliente e logo poderemos saber qual cliente fez determinada compra.
+
+Referêcia : https://www.blogson.com.br/chave-primaria-estrangeira-e-composta-no-mysql/
+
+---------------------------------------------
+10 - A função AVG() pode ser utilizada com a seleção de um campo ou por meio de uma expressão. Ela retornará a soma de todos os números selecionados dividido pela quantidade de registros. Por isso, a cláusula ALL é considerada como padrão de seleção. Se quisermos eliminar os valores repetidos, devemos utilizar a cláusula DISTINCT.
+
+SELECT 
+   cidade, 
+   AVG(nota1) AS nota_media 
+FROM pessoa
+GROUP BY cidade
+
+Referêcia : 
+https://blog.betrybe.com/sql/sql-count/#3
+---------------------------------------------
+11 - View  é uma tabela virtual  baseada no conjunto de resultados de uma consulta SQL, criada a partir de um conjunto de tabelas (ou outras views) presentes no banco, que servem com tabelas-base.
+A visualização não ocupa espaço de armazenamento no banco de dados porque não armazena nenhum dado em si, apenas se refere aos dados das tabelas que o compõem.
+
+As exibições costumam ser usadas para simplificar consultas complexas, restringir o acesso a dados confidenciais ou fornecer uma exibição personalizada de dados para diferentes usuários. Eles são usados ​​da mesma forma que qualquer tabela em um banco de dados, os dados podem ser visualizados da mesma forma que em uma tabela física real.
+
+Referêcia : 
+http://www.bosontreinamentos.com.br/mysql/mysql-views-criando-tabelas-virtuais-visoes-28/
+http://www.bosontreinamentos.com.br/bancos-de-dados/qual-a-diferenca-entre-view-e-materialized-view-em-bancos-de-dados/#:~:text=Uma%20view%20%C3%A9%20uma%20tabela,se%20fossem%20uma%20tabela%20normal.
+---------------------------------------------
+12 - WHERE é utilizada para restringir os dados que serão listados.
+Até agora, usamos o sinal de igual (=) para listar apenas os registros que possuem atributos com valores exatos conforme necessário. No entanto, qualquer um dos operadores de comparação (<, <=, >, >=, <>, =) que você aprendeu a usar em cursos de programação pode ser usado para testar valores de atributos na cláusula WHERE.
+
+SELECT fil_titulo FROM filmes WHERE fil_preco < 3;
+
+Referêcia : 
+https://materialpublic.imd.ufrn.br/curso/disciplina/3/73/10/7
+---------------------------------------------
+13 -
+A função MySQL MAX() é usada para retornar o valor máximo em um conjunto de valores de uma expressão. Essa função agregada é útil quando precisamos encontrar o número máximo, selecionando o produto mais caro ou obtendo o maior pagamento ao cliente da sua mesa.
+
+SELECT MAX(Price) AS LargestPrice FROM Products;
+
+Referêcia : 
+https://www.w3schools.com/sql/func_mysql_max.asp
+---------------------------------------------
+14 - Esta função é usada para calcular a soma do grupo de valores especificado,vem em Funções numéricas, aceita apenas um parâmetro denominado expressão ela ignora o valor nulo.
+
+SELECT SUM(price) FROM product09;
+Referêcia : 
+https://acervolima.com/funcao-sum-no-mysql/
+---------------------------------------------
+15 - 
+A ALTER TABLE instrução é usada para adicionar, excluir ou modificar colunas em uma tabela existente.
+
+A ALTER TABLE instrução também é usada para adicionar e remover várias restrições em uma tabela existente.
+
+Para adicionar uma coluna em uma tabela: 
+ALTER TABLE table_name
+ADD column_name datatype;
+
+Para renomear uma coluna em uma tabela : 
+ALTER TABLE table_name
+RENAME COLUMN old_name to new_name;
+
+Referêcia : 
+https://www.w3schools.com/sql/sql_alter.asp
+---------------------------------------------
+16 - Instrução é usada para inserir novos registros em uma tabela.
+
+Especifique os nomes das colunas e os valores a serem inseridos: 
+INSERT INTO table_name (column1, column2, column3, ...)
+VALUES (value1, value2, value3, ...);
+
+
+Referêcia : 
+https://www.w3schools.com/sql/sql_insert.asp
+---------------------------------------------
+17 - 
+IS NOT NULL -> Este operador é usado para testar os valores não vazios.
+
+
+SELECT *
+ FROM column_names
+WHERE column_name IS NOT NULL;
+
+Irá mostrar os dados que não são nulos.
+
+Referêcia : 
+https://acervolima.com/consulta-sql-para-excluir-valores-nulos/
+---------------------------------------------
+18 -
+O valor armazenado em um atributo ou mais atributos de um registro deve ser único em relação a todos os registros da tabela. Este é o conceito de chave primária. Devemos portanto definir quais registros irão compor a chave primária, sendo que cada tabela possui uma única chave primária. Quando se define um atributo como chave primaria, fica implícito as cláusulas UNIQUE e NOT NULL para este atributo, não sendo necessário a especificação destas.
+
+ As chaves estrangeiras permite que uma tabela se relacione com outra, por exemplo, em uma loja existe um controle de vendas, aonde é registrada todas as vendas feita pela loja durante o dia, a loja também tem um controle de cliente contendo todos os dados pessoais de cada um deles. Note que temos duas informações totalmente diferentes, mas podemos relacionar as compras com o cliente e logo poderemos saber qual cliente fez determinada compra.
+
+CLIENTE (id,cpf, nome, sobrenome, rua, numero, cidade, nascimento)
+Aonde id vai ser a chave principal representando essa tabela
+
+Referêcia : 
+
+https://www.blogson.com.br/chave-primaria-estrangeira-e-composta-no-mysql/
+https://www.ime.usp.br/~andrers/aulas/bd2005-1/aula12.html
+---------------------------------------------
+19 -
+A UPDATEinstrução é usada para modificar os registros existentes em uma tabela.
+
+UPDATE table_name
+SET column1 = value1, column2 = value2, 
+WHERE condition;
+
+SET = DEFINIR QUAL COLUNA VAI SER ALTERAR
+WHERE = Condição para ser alterada
+
+Referêcia : 
+https://www.w3schools.com/sql/sql_update.asp
+---------------------------------------------
+20 -  SELECT * FROM Produtos WHERE preco > 1000; 
+Referêcia : 
+https://www.devmedia.com.br/10-instrucoes-sql-para-manipulacao-de-dados/4832
+---------------------------------------------

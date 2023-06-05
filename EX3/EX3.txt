@@ -1,0 +1,44 @@
+create schema estabelecimento;
+
+
+use estabelecimento;
+
+CREATE TABLE Cliente (
+id INT PRIMARY KEY auto_increment,
+nome VARCHAR(30),
+telefone  VARCHAR(15),
+email varchar(40)
+);
+
+CREATE TABLE Pedido (
+id INT primary key auto_increment,
+data_pedido DATE,
+valor_pedido DECIMAL(10,2),
+cliente_id INT,
+foreign key(cliente_id) references cliente(id)
+);
+
+
+insert into cliente (nome,telefone,email) 
+values ('Gabriel','48-2854-5854','Gabrielll@gma.com'),
+ ('Maria','48-2854-2554','hrt@gma.com'),
+ ('Pedro','48-2554-5854','grtg@gma.com'),
+('José','47-5254-5854','gr61g@gma.com');
+
+insert into pedido (data_pedido, valor_pedido,cliente_id) 
+values( '2020-02-02', 5242.0, 1),
+('2015-01-03', 552.0, 1),
+('2012-01-03', 552.0, 1),
+('2013-01-03', 5252.0, 2),
+('2014-01-03', 3552.0, 2),
+('2015-01-03', 52.0, 2),
+('2017-01-03', 2.0, 3),
+('2021-01-03', 5252.0, 3),
+('2015-01-03', 252.0, 3),
+('2010-01-03', 52.0, 4),
+('2015-01-03', 500.0, 4),
+('2015-01-03', 22.0, 4);
+
+select p.id as pedido, p.valor_pedido as valor, c.nome as cliente
+from pedido p left join cliente c
+on c.id = p.cliente_id;

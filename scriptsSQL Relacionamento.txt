@@ -1,0 +1,23 @@
+CREATE TABLE Setores (
+id INT NOT NULL,
+localizacao VARCHAR(50),
+centro_custo VARCHAR(50),
+PRIMARY KEY(id)
+);
+
+
+-- create
+
+CREATE TABLE Empregados (
+matricula INT,
+nome VARCHAR(50) NOT NULL,
+sobrenome VARCHAR(50) NOT NULL,
+funcao VARCHAR(50) default 'Não informado',
+cpf VARCHAR(11) NOT NULL,
+idade INT,
+setorId INT NOT NULL,
+UNIQUE(cpf),
+foreign key(setorId) references Setores(id)
+);
+
+Dbeaver

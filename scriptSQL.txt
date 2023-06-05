@@ -1,0 +1,32 @@
+
+-- create
+
+CREATE TABLE Filme (
+titulo VARCHAR(50),
+duracao int, 
+genero VARCHAR(50) DEFAULT 'NÃO INFORMADO',
+classificacao VARCHAR(50),
+direcao VARCHAR(100),
+PRIMARY KEY(titulo),
+UNIQUE(titulo)
+);
+
+INSERT INTO Filme (titulo, duracao, genero, classificacao, direcao)
+VALUES('Gato', 123, 'Animação', 'Livre', 
+'Joel Santana' );
+
+INSERT INTO Filme (titulo, duracao, genero, classificacao, direcao)
+VALUES('Titanic', 125, 'COMÉDIA', '+16', 
+'James Cameron' );
+
+
+-- UPDATE Filme SET direcao = 'Joel Crawford' WHERE titulo = 'Gato';
+-- DELETE FROM Filme WHERE titulo = 'Gato';
+
+SELECT * FROM Filme;
+
+DELETE FROM Filme WHERE titulo like 'G%' AND duracao > 100;
+
+ALTER TABLE Filme RENAME TO Filmes;
+
+SELECT * FROM Filmes;
