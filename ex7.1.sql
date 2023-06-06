@@ -3,13 +3,13 @@ create schema Loja;
 use Loja;
 
 CREATE TABLE Venda (
-id INT PRIMARY KEY auto_increment ,
 id_nf int,
 id_item int,
 cod_prod int,
 valor_unit DECIMAL(10,2),
 quantidade int,
-desconto int
+desconto int,
+primary key (id_nf, id_item)
 );
 
 insert into venda(id_nf,id_item,cod_prod,valor_unit,quantidade,desconto) 
@@ -23,22 +23,20 @@ values (1,1,1,25,10,5),(1,2,2,13.50,3, null),(1,3,3,15,2,null),
 (7,2,2,13.50,10,4),(7,3,3,15,10,4);
 
 #A
-select id_nf,id_item ,cod_prod ,valor_unit   from venda where desconto IS NOT NULL;
+select id_nf,id_item ,cod_prod ,valor_unit   from venda where desconto IS NULL OR desconto = 0;
 
 #B
-select id_nf,id_item ,cod_prod ,valor_unit ,sum(valor_unit  - VALOR_UNIT*(DESCONTO/100)) as valor_vendido 
+select id_nf,id_item ,cod_prod ,valor_unit ,(valor_unit  - VALOR_UNIT*(DESCONTO/100)) as valor_vendido 
 from venda 
-where desconto IS NOT null
-group by id ;
+where desconto > 0 or desconto is not null;
 
 #C
-UPDATE venda SET desconto != 0 WHERE desconto is null  ;
+UPDATE venda SET desconto = 0 WHERE desconto is null  ;
 
-#D
-select id_nf,id_item ,cod_prod ,valor_unit ,quantidade ,desconto ,
-sum( (quantidade  * valor_unit) - ((quantidade  * valor_unit) *  (desconto/100))) as valor_vendido
-from venda 
-group by id ;
+#D arrumar
+select id_nf,id_item ,cod_prod ,valor_unit ,quantidade ,desconto , (valor_unit * quantidade) as valorTotal,
+((valor_unit * quantidade) - (valor_unit  - ( valor_unit * (desconto/100)) * quantidade  )) as valor_vendido
+from venda ;
 
 #E
 select id_nf,
@@ -49,7 +47,7 @@ order by valor_total desc;
 
 #F
 select id_nf, 
-sum( (quantidade  * valor_unit) - ((quantidade  * valor_unit) *  (desconto/100))) as valor_vendido
+sum(valor_unit - (valor_unit * (desconto/ 100))) as valor_vendido
 from venda
 group by id_nf 
 order by valor_vendido desc;
@@ -61,15 +59,17 @@ count(cod_prod) as contador_produto ,
 sum(quantidade) as quantidade 
 from venda
 group by cod_prod 
-order by contador_produto desc;
+order by contador_produto desc 
+limit 1;
 
 #H // nao pede qatidade
-select id_nf , cod_prod
+select id_nf , cod_prod, sum(quantidade) as quantidade
 from venda 
-where quantidade > 10
-group by id_nf, cod_prod ;
+group by id_nf, cod_prod 
+having sum(quantidade) > 10;
 
-#i deixar em branco
+
+#i 
 select id_nf,
 sum(quantidade * valor_unit) as valor_total
 from venda 
@@ -80,7 +80,7 @@ order by valor_total desc;
 
 #j
 select cod_prod , 
-avg(desconto) as media
+avg(valor_unit * (desconto / 100)) as media
 from venda
 group by cod_prod ;
 
