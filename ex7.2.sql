@@ -55,6 +55,9 @@ values(2015010101, 'JOSE DE ALENCAR', 'RUA DAS ALMAS', 'NATAL'),
 (2015010105, 'JOSUÉ CLAUDINO DOS SANTOS', 'CENTRO', 'NATAL'),
 (2015010106, 'JOSUÉLISSON CLAUDINO DOS SANTOS', 'CENTRO', 'NATAL');
 
+insert into alunos (mat,nome,endereco,cidade) 
+values(2015010999, 'Diego P', 'JARDIM CIDADE', 'SAO JOSE');
+
 insert into disciplinas (cod_disc,nome_disc, carga_hor) 
 values(1, 'BANCO DE DADOS', 100),
 (2, 'PROGRAMAÇÃO COM ACESSO A BANCO DE DADOS', 100),
@@ -85,6 +88,14 @@ select a.mat,        t.COD_DISC ,        t.COD_TURMA ,        t.COD_PROF  ,     
 from alunos a, disciplinas d, turma t
 on duplicate key update frequencia = VALUES(frequencia), nota = values(nota);
 
+
+select a.mat, d.cod_disc, t.cod_turma, t.cod_prof, t.ano
+from alunos a , disciplinas d , turma t;
+
+select h.mat, h.cod_disc, h.COD_TURMA ,h.COD_PROF , h.ANO 
+from historico h ;
+
+
 #A
 select mat 
 from historico h 
@@ -95,6 +106,8 @@ select mat, avg(nota) as media_notas, COD_DISC
 from historico 
 where ano = 2015 and COD_DISC = 2
 group by mat;
+
+select * from alunos  inner  join disciplinas d ;
 
 #c
 select a.mat, 
