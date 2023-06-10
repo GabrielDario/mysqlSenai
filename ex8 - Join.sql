@@ -194,34 +194,202 @@ values(1, 'Higiene'), (2,'Embalados');
 insert into Produtos (id_produto, nome_produto, id_categoria)
 values(1, 'Escova de dente' ,1), (2, 'Sardinha', 2);
 
-select u.nome_usuario, p.conteudo
-from usuarios u 
-inner join posts p  
-on u.id_usuario = p.id_usuario  ;
+select c.nome_categoria , p.nome_produto 
+from categorias c 
+inner join produtos p  
+on c.id_categoria = p.id_categoria  ;
 #--------------------------------------
 #8 
 create schema Questao8;
 use Questao8;
+
+CREATE TABLE Clientes (
+   id_cliente INT PRIMARY KEY,
+   nome VARCHAR(50)
+);
+
+CREATE TABLE Pedidos (
+   id_pedido INT PRIMARY KEY,
+   id_cliente INT,
+   produto VARCHAR(50),
+   FOREIGN KEY (id_cliente) references Clientes(id_cliente)
+);
+
+create table pagamentos(
+  id_pagamento int primary key,
+  id_pedido INT ,
+  valor int,
+  FOREIGN KEY (id_pedido) references Pedidos(id_pedido)
+);
+
+insert into clientes (id_cliente, nome)
+values(1, 'Joao'), (2,'Pedro');
+
+insert into Pedidos (id_pedido, id_cliente, produto)
+values(1, 1, 'Papel'), (2,2, 'Caneta');
+
+insert into pagamentos(id_pagamento,id_pedido,valor)
+values(1,1,250),(2,2,500);
+
+select c.nome, pe.id_pedido , pa.valor
+from clientes c 
+inner join pedidos pe 
+inner join pagamentos pa 
+on pe.id_cliente = c.id_cliente
+and pa.id_pedido = pe.id_pedido ;
 #--------------------------------------
 #9 
 create schema Questao9;
 use Questao9;
+
+CREATE TABLE Alunos (
+   id_aluno INT PRIMARY KEY,
+   nome VARCHAR(50)
+);
+
+CREATE TABLE Notas (
+   id_nota INT PRIMARY KEY,
+   id_aluno INT,
+   valor int,
+   FOREIGN KEY (id_aluno) references Alunos(id_aluno)
+);
+
+insert into Alunos(id_aluno, nome)
+values(1,'Joao'),(2,'Pedro'),(3,'Henrique'),(4,'Paulo'),(5,'Gabriel');
+
+insert into Notas(id_nota, id_aluno, valor)
+values(1,1, 7),(2, 2,7.5),(3,3, 9),(4,1, 6),(5,5,3);
+
+select a.nome,n.valor
+from alunos a 
+inner join notas n 
+on a.id_aluno = n.id_aluno
+order by valor desc;
+
 #--------------------------------------
 #10
 create schema Questao10;
 use Questao10;
+
+CREATE TABLE Clientes (
+   id_cliente INT PRIMARY KEY,
+   nome VARCHAR(50)
+);
+
+create table COMPRAS (
+ id_compras INT PRIMARY KEY,
+ id_cliente int,
+ valor int,
+ foreign key (id_cliente) references Clientes(id_cliente)
+ );
+
+insert into Clientes(id_cliente, nome)
+values(1,'Joao'),(2,'Pedro'),(3,'Henrique'),(4,'Paulo'),(5,'Gabriel');
+
+insert into COMPRAS(id_compras, id_cliente, valor)
+values(6,5, 70),(7,1,60),(8,4, 90),(9,2, 60),(10,3,40);
+
+select cl.nome, sum(valor) as valor_total
+from Clientes cl
+inner join compras co 
+on cl.id_cliente = co.id_cliente
+group by nome ;
+
 #--------------------------------------
 #11 
 create schema Questao11;
-use Questa11;
+use Questao11;
+
+
+CREATE TABLE Clientes (
+   id_cliente INT PRIMARY KEY,
+   nome VARCHAR(50)
+);
+
+CREATE TABLE Pedidos (
+   id_pedido INT PRIMARY KEY,
+   id_cliente INT,
+   produto VARCHAR(50),
+   FOREIGN KEY (id_cliente) references Clientes(id_cliente)
+);
+
+insert into clientes (id_cliente, nome)
+values(1, 'Joao'), (2,'Pedro'), (3,'Gabriel'), (4,'Vinicius'), (5,'Henrique');
+
+insert into Pedidos (id_pedido, id_cliente, produto)
+values(1, 1, 'Papel'), 
+(2,2, 'Caneta'), 
+(3,5, 'Borracha'), 
+(4,4, 'Lápis'), 
+(5,5, 'Caneta');
+
+select c.nome, p.produto 
+from clientes c 
+left join pedidos p 
+on c.id_cliente  = p.id_cliente ;
+
 #--------------------------------------
 #12 
 create schema Questao12;
 use Questao12;
+
+CREATE TABLE Alunos (
+   id_aluno INT PRIMARY KEY,
+   nome VARCHAR(50)
+);
+
+CREATE TABLE Notas (
+   id_nota INT PRIMARY KEY,
+   id_aluno INT,
+   valor int,
+   FOREIGN KEY (id_aluno) references Alunos(id_aluno)
+);
+
+insert into Alunos(id_aluno, nome)
+values(1,'Joao'),(2,'Pedro'),(3,'Henrique'),(4,'Paulo'),(5,'Gabriel');
+
+insert into Notas(id_nota, id_aluno, valor)
+values(1,1, 7),(2, 2,7.5),(3,3, 9),(4,1, 6),(5,5,3);
+
+select a.nome,n.valor
+from alunos a 
+left join notas n 
+on a.id_aluno = n.id_aluno
+order by valor desc;
 #--------------------------------------
 #13 
 create schema Questao13;
 use Questao13;
+
+CREATE TABLE Departamentos (
+   id_departamento INT PRIMARY KEY,
+   nome_departamento VARCHAR(50)
+);
+CREATE TABLE Funcionarios (
+   id_funcionário INT PRIMARY KEY,
+   nome VARCHAR(50),
+   id_departamento int,
+   foreign key (id_departamento) references Departamentos(id_departamento)
+);
+
+insert into Departamentos (id_departamento, nome_departamento)
+values(1, 'T.I'),
+(2,'Financeiro'), 
+(3,'Depósito'), 
+(4,'Comericial'),
+(5,'Diretoria');
+
+insert into Funcionarios (id_funcionário, nome, id_departamento)
+values(1, 'Israel',1), 
+(2, 'José',2),
+(3,'Paulo',1), 
+(4,'Rose',3),
+(5,'Pimpolho',2);
+
+select d.nome_departamento  , f.nome 
+from departamentos d
+left join funcionarios f 
+on f.id_departamento  = d.id_departamento  ;
 #--------------------------------------
 #14 
 create schema Questao14;
