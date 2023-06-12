@@ -64,9 +64,10 @@ values(3, 3), (4, 1) ;
 select a.nome  , c.nome_curso as curso
 FROM aluno a  
 INNER JOIN matriculas m 
-ON a.id_aluno = m.id_curso  
-INNER JOIN cursos c 
-ON c.id_curso  = m.id_aluno ;
+inner join cursos c 
+ON m.id_aluno = a.id_aluno and 
+m.id_curso = c.id_curso 
+order by nome;
 #--------------------------------------
 #3
 create schema Questao3;
@@ -394,6 +395,75 @@ on f.id_departamento  = d.id_departamento  ;
 #14 
 create schema Questao14;
 use Questao14;
+
+CREATE TABLE Clientes (
+   id_cliente INT PRIMARY KEY,
+   nome VARCHAR(50)
+);
+
+create table COMPRAS (
+ id_compras INT PRIMARY KEY,
+ id_cliente int,
+ valor int,
+ foreign key (id_cliente) references Clientes(id_cliente)
+ );
+
+insert into Clientes(id_cliente, nome)
+values(1,'Joao'),(2,'Pedro'),(3,'Henrique'),(4,'Paulo'),(5,'Gabriel');
+
+insert into COMPRAS(id_compras, id_cliente, valor)
+valuesvalues(6,5, 70),(7,1,60),(8,4, 90),(9,2, 60),(10,3,40),
+(1, null, 40),(2, null, 40);
+
+select co.id_compras , cl.nome
+from Clientes cl
+right join compras co 
+on cl.id_cliente = co.id_cliente
+group by id_compras ;
+#--------------------------------------
+#15
+create schema Questao15;
+use Questao15;
+
+
+CREATE TABLE Aluno (
+   id_aluno INT PRIMARY KEY,
+   nome VARCHAR(50)
+);
+
+CREATE TABLE Cursos (
+   id_curso INT PRIMARY KEY,
+   nome_curso VARCHAR(50)
+);
+
+CREATE TABLE Matriculas (
+   id_aluno INT,
+   id_curso INT,
+   primary key (id_aluno,id_curso),
+   FOREIGN KEY (id_aluno) references Aluno(id_aluno),
+   FOREIGN KEY (id_curso) references Cursos(id_curso)
+);
+
+insert into Aluno (id_aluno, nome)
+values(1, 'Joao'), (2,'Pedro'),(3,'Gabriel'),(4,'Thiago');
+
+insert into Cursos (id_curso, nome_curso)
+values(1, 'Estetica'), (2, 'Moda'),(3, 'Padeiro'), (4, 'Design');
+
+insert into Matriculas (id_aluno, id_curso)
+values(1, 2), (1, 1), (3, 4), (3, 2), (4,1),(4,2),(4,3) ;
+
+select a.nome  , c.nome_curso as curso
+FROM aluno a  
+INNER JOIN matriculas m 
+inner join cursos c 
+ON m.id_aluno = a.id_aluno and 
+m.id_curso = c.id_curso 
+order by a.id_aluno ;
+#--------------------------------------
+#14 
+create schema Questao16;
+use Questao16;
 
 
 
