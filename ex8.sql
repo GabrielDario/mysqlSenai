@@ -1,3 +1,5 @@
+
+#-------------------------------------------------------------------------------
 #QUESTÃO 1
 create schema Questao1;
 use Questao1;
@@ -20,12 +22,10 @@ values(1, 'Joao'), (2,'Pedro');
 insert into Pedidos (id_pedido, id_cliente, produto)
 values(1, 1, 'Papel'), (2,2, 'Caneta');
 
-#Escreva uma consulta SQL para obter o nome do cliente e o produto associado a
-#cada pedido.
-select c.nome, p.produto 
-from clientes c 
-inner join pedidos p 
-on c.id_cliente = p.id_pedido;
+select c.nome, p.produto
+from clientes c
+inner join pedidos p
+on c.id_cliente = p.id_pedido; #or having (id_cliente)
 
 #--------------------------------------
 #2 
@@ -59,14 +59,12 @@ values(3, 'Estetica'), (4, 'Moda');
 insert into Matriculas (id_aluno, id_curso)
 values(3, 3), (4, 1) ;
 
-#Escreva uma
-#consulta SQL para obter o nome do aluno e o nome do curso associado a cada matrícula.
-select a.nome  , c.nome_curso as curso
-FROM aluno a  
-INNER JOIN matriculas m 
-inner join cursos c 
-ON m.id_aluno = a.id_aluno and 
-m.id_curso = c.id_curso 
+select a.nome , c.nome_curso as curso
+FROM aluno a
+INNER JOIN matriculas m
+on m.id_curso = a.id_aluno
+inner join cursos c
+ON c.id_aluno = a.id_aluno 
 order by nome;
 #--------------------------------------
 #3
@@ -90,10 +88,10 @@ values(1, 'T.I'), (2,'Financeiro');
 insert into Funcionarios (id_funcionário, nome, id_departamento)
 values(1, 'Israel',1), (2, 'José',2);
 
-select f.nome , d.nome_departamento 
-from departamentos d
-inner join funcionarios f 
-on f.id_departamento  = d.id_departamento  ;
+select f.nome , d.nome_departamento
+from funcionarios f
+inner join departamento d
+on f.id_departamento = d.id_departamento ;
 #--------------------------------------
 #4 
 create schema Questao4;
@@ -144,8 +142,8 @@ insert into Livros (id_livro, titulo, id_autor)
 values(1, 'O Iluminado' ,1), (2, 'O Corvo', 2);
 
 select a.nome_autor, l.titulo 
-from autores a 
-inner join livros l 
+from autores a
+inner join livros l
 on a.id_autor = l.id_autor  ;
 #--------------------------------------
 #6 
@@ -235,9 +233,9 @@ values(1,1,250),(2,2,500);
 select c.nome, pe.id_pedido , pa.valor
 from clientes c 
 inner join pedidos pe 
+on c.id_cliente = pe.id_cliente
 inner join pagamentos pa 
-on pe.id_cliente = c.id_cliente
-and pa.id_pedido = pe.id_pedido ;
+on  pa.id_pedido = pe.id_pedido ;
 #--------------------------------------
 #9 
 create schema Questao9;
@@ -264,8 +262,7 @@ values(1,1, 7),(2, 2,7.5),(3,3, 9),(4,1, 6),(5,5,3);
 select a.nome,n.valor
 from alunos a 
 inner join notas n 
-on a.id_aluno = n.id_aluno
-order by valor desc;
+on a.id_aluno = n.id_aluno;
 
 #--------------------------------------
 #10
@@ -355,8 +352,7 @@ values(1,1, 7),(2, 2,7.5),(3,3, 9),(4,1, 6),(5,5,3);
 select a.nome,n.valor
 from alunos a 
 left join notas n 
-on a.id_aluno = n.id_aluno
-order by valor desc;
+on a.id_aluno = n.id_aluno;
 #--------------------------------------
 #13 
 create schema Questao13;
@@ -456,16 +452,43 @@ values(1, 2), (1, 1), (3, 4), (3, 2), (4,1),(4,2),(4,3) ;
 select a.nome  , c.nome_curso as curso
 FROM aluno a  
 INNER JOIN matriculas m 
+ON m.id_aluno = a.id_aluno  
 inner join cursos c 
-ON m.id_aluno = a.id_aluno and 
-m.id_curso = c.id_curso 
-order by a.id_aluno ;
+ON  m.id_curso = c.id_curso  ;
 #--------------------------------------
-#14 
+#16
 create schema Questao16;
 use Questao16;
 
+CREATE TABLE Clientes (
+id_cliente INT PRIMARY KEY,
+nome VARCHAR(50)
+);
 
 
+CREATE TABLE Pedidos (
+id_pedido INT PRIMARY KEY,
+id_cliente INT,
+data_pedido date,
+FOREIGN KEY (id_cliente) references Clientes(id_cliente)
+);
 
 
+insert into clientes (id_cliente, nome)
+values(1, 'Joao'), (2,'Pedro'), (3,'Gabriel'), (4,'Vinicius'), (5,'Henrique');
+
+insert into Pedidos (id_pedido, id_cliente, data_pedido)
+values(6, 1, '2020-04-19'),
+(7,2, '2012-01-20'),
+(8,5, '2019-02-22'),
+(9,4, '2021-10-19'),
+(10,5, '2020-08-18');
+
+select c.nome ,
+count(p.id_cliente) as qnt_pedidos,
+max(p.data_pedido) as data_pedido
+from clientes c
+inner join pedidos p
+on c.id_cliente = p.id_cliente
+group by c.nome
+order by data_pedido ;
